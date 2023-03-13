@@ -9,6 +9,17 @@ buildscript {
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.23.4'
     }
 }
+publishing {
+    repositories {
+        maven {
+            url "https://maven.pkg.github.com/tr-sangale/odk-x-droid"
+            credentials {
+                username = project.findProperty("tr-sangale") ?: System.getenv("USERNAME")
+                password = project.findProperty("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") ?: System.getenv("PASSWORD")
+            }
+        }
+    }
+}
 
 allprojects {
     repositories {
