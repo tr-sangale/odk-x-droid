@@ -16,6 +16,7 @@ jobs:
       - image: circleci/android:api-29
     steps:
       - checkout
+      - run: chmod +x ./gradlew
       - run: echo "machine github.com login $GITHUB_TOKEN" > ~/.netrc
       - run: ./gradlew publishToGitHubPackagesRepository
 
