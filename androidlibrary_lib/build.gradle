@@ -166,6 +166,18 @@ task spawnDemoBasicArchives {
     }
 }
 
+task publishToGitHubPackagesRepository(type: PublishToGitHubPackagesRepository) {
+    repositories {
+        maven {
+            url "https://maven.pkg.github.com/tr-sangale/odk-x-droid"
+            credentials {
+                username = project.findProperty("tr-sangale") ?: System.getenv("USERNAME")
+                password = project.findProperty("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") ?: System.getenv("PASSWORD")
+            }
+        }
+    }
+}
+
 artifactoryPublish.mustRunAfter('spawnSnapshotBasicArchives')
 artifactoryPublish.mustRunAfter('spawnDemoBasicArchives')
 artifactoryPublish.mustRunAfter('connectedSnapshotBasicDebugAndroidTest')
