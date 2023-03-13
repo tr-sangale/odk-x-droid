@@ -18,7 +18,7 @@ jobs:
       - checkout
       - run: chmod +x ./gradlew
       - run: echo "machine github.com login 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" > ~/.netrc
-      - run: ./gradlew publishToGitHubPackagesRepository
+      - run: ./gradlew publishToGitHubPackagesRepository 
 
 workflows:
   version: 2
