@@ -122,18 +122,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
 }
 
-publishing {
-    publications {
-        aarRelease(MavenPublication) {}
-        aarDebug(MavenPublication) {}
-    }
-    repositories {
-        ivy {
-            ivyPattern('[organisation]/[module]/[revision]/ivy-[revision].xml')
-            artifactPattern('[organisation]/[module]/[revision]/[artifact]-[revision](-[classifier]).[ext]')
-        }
-    }
-}
+
 
 
 task spawnSnapshotBasicArchives {
