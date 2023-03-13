@@ -1,0 +1,172 @@
+/**************************************************************************************************
+ GRADLE CONFIG
+ *************************************************************************************************/
+
+if ((new File(gradle.local)).exists()) {
+    apply from: gradle.local
+} else {
+    apply from: gradle.remote
+}
+
+libraryScripts.each {
+    apply from: it
+}
+
+apply plugin: 'com.android.library'
+apply plugin: "com.jfrog.artifactory"
+apply plugin: "maven-publish"
+apply plugin: "jacoco"
+
+jacoco {
+    toolVersion = "0.8.2"
+}
+
+group = groupId
+
+android {
+
+    // The following are set in the common.gradle file
+    compileSdkVersion(compileVersion)
+    buildToolsVersion(buildTools)
+    defaultConfig {
+        minSdkVersion(minVersion)
+        targetSdkVersion(targetVersion)
+        versionCode(releaseVersionCode)
+        versionName(versionCodeName)
+        testInstrumentationRunner(instrumentationRunner)
+    }
+
+    // set by command line arguments
+    defaultPublishConfig(gradle.ext.odkDefaultPublishConfig)
+
+    flavorDimensions "stage", "testing"
+
+    productFlavors {
+        demo {
+            dimension 'stage'
+        }
+
+        master {
+            dimension 'stage'
+        }
+
+        snapshot {
+            dimension 'stage'
+        }
+
+        basic {
+            dimension 'testing'
+        }
+
+        uitest {
+            minSdkVersion(uitestMinSDK)
+            dimension 'testing'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled(minify)
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            matchingFallbacks = ['debug']
+        }
+        debug {
+            debuggable(true)
+            testCoverageEnabled(testCoverage) // Allows AndroidTest JaCoCo reports to be generated
+            matchingFallbacks = ['release']
+        }
+    }
+
+    packagingOptions { // Pick first occurrence of any files that cause conflicts, as defined in common.gradle
+        packageList.each {
+            pickFirst it
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility javaVersion
+        targetCompatibility javaVersion
+    }
+}
+
+
+configurations.all {
+    resolutionStrategy {
+        cacheDynamicVersionsFor(0, 'seconds')
+        cacheChangingModulesFor(0, 'seconds')
+    }
+}
+
+allprojects {
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << "-Xlint:deprecation"
+    }
+}
+
+
+dependencies {
+    api fileTree(include: '*.jar', dir: 'libs')
+    implementation 'net.jcip:jcip-annotations:1.0'
+    implementation 'androidx.annotation:annotation:1.2.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'androidx.preference:preference:1.1.1'
+    implementation 'androidx.fragment:fragment:1.3.6'
+    implementation 'com.google.android.material:material:1.4.0'
+    // Testing dependencies
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'androidx.annotation:annotation:1.2.0'
+    androidTestImplementation 'androidx.test:rules:1.4.0'
+    androidTestImplementation 'androidx.test:runner:1.4.0'
+    androidTestImplementation 'androidx.test:core:1.4.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+}
+
+publishing {
+    publications {
+        aarRelease(MavenPublication) {}
+        aarDebug(MavenPublication) {}
+    }
+    repositories {
+        ivy {
+            ivyPattern('[organisation]/[module]/[revision]/ivy-[revision].xml')
+            artifactPattern('[organisation]/[module]/[revision]/[artifact]-[revision](-[classifier]).[ext]')
+        }
+    }
+}
+
+
+task spawnSnapshotBasicArchives {
+    dependsOn('snapshotVersion')
+    dependsOn('assembleSnapshotBasicDebug')
+    dependsOn('assembleSnapshotBasicRelease')
+    doLast {
+        bundleSnapshotBasicReleaseAar.classifier snapshotRelease
+        bundleSnapshotBasicDebugAar.classifier snapshotDebug
+
+        publishing.publications.aarRelease.artifact bundleSnapshotBasicReleaseAar
+        publishing.publications.aarDebug.artifact bundleSnapshotBasicDebugAar
+
+        project.getArtifacts().add("default", bundleSnapshotBasicDebugAar)
+    }
+}
+
+task spawnDemoBasicArchives {
+    dependsOn('snapshotVersion')
+    dependsOn('assembleDemoBasicDebug')
+    dependsOn('assembleDemoBasicRelease')
+    doLast {
+        bundleDemoBasicReleaseAar.classifier demoRelease
+        bundleDemoBasicDebugAar.classifier demoDebug
+
+        publishing.publications.aarRelease.artifact bundleDemoBasicReleaseAar
+        publishing.publications.aarDebug.artifact bundleDemoBasicDebugAar
+
+        project.getArtifacts().add("default", bundleDemoBasicDebugAar)
+    }
+}
+
+artifactoryPublish.mustRunAfter('spawnSnapshotBasicArchives')
+artifactoryPublish.mustRunAfter('spawnDemoBasicArchives')
+artifactoryPublish.mustRunAfter('connectedSnapshotBasicDebugAndroidTest')
+artifactoryPublish.mustRunAfter('connectedDemoBasicDebugAndroidTest')

@@ -1,0 +1,31 @@
+gradle.ext.gradleConfigVersion = 155
+
+if (!gradle.ext.has('workspacePath')) {
+    logger.warn("rootDir: " + rootDir.getAbsolutePath());
+    gradle.ext.workspacePath = rootDir.getParentFile().getAbsolutePath();
+}
+
+logger.warn('androidlibrary/settings.gradle -- gradle.ext.workspacePath: ' + gradle.ext.workspacePath)
+
+gradle.ext.local = gradle.ext.workspacePath + '/gradle-config/remote.gradle'
+gradle.ext.remote = 'https://raw.githubusercontent.com/opendatakit/gradle-config/' + gradle.ext.gradleConfigVersion + '/remote.gradle'
+
+if ((new File(gradle.ext.local)).exists()) {
+    gradle.ext.useLocalPaths = true
+    apply from: gradle.ext.local
+} else {
+    gradle.ext.useLocalPaths = false
+    apply from: gradle.ext.remote
+}
+
+settingsScripts.each {
+    apply from: it
+}
+
+include(libraryProjectChild)
+
+if(gradle.ext.odkPublishConfig) {
+    project(libraryProjectChild).name = gradle.ext.odkLibraryArchiveName
+}
+
+

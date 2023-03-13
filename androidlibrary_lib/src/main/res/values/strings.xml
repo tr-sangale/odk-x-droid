@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    
+    <string name="app_name">ODK Library</string>
+	<string name="app_userLabel">OpenDataKit</string>
+
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="services_permission_tree">Open Data Kit Services</string>
+	<string name="services_permissions_description">Open Data Kit Services access permissions</string>
+	<string name="webkit_launch_permission">Launch WebServer</string>
+	<string name="database_launch_permission">Launch Database</string>
+    <string name="sync_launch_permission">Launch Sync</string>
+
+	<string name="added_on_date_at_time">\'Added on\' EEE, MMM dd, yyyy \'at\' HH:mm</string><!-- http://docs.oracle.com/javase/6/docs/api/java/text/SimpleDateFormat.html -->
+	<string name="not_yet_sent">Never Uploaded</string>
+	<string name="sent_on_date_at_time">\'Sent on\' EEE, MMM dd, yyyy \'at\' HH:mm</string><!-- http://docs.oracle.com/javase/6/docs/api/java/text/SimpleDateFormat.html -->
+	<string name="sending_failed_on_date_at_time">\'Sending failed on\' EEE, MMM dd, yyyy \'at\' HH:mm</string><!-- http://docs.oracle.com/javase/6/docs/api/java/text/SimpleDateFormat.html -->
+
+	<string name="default_sync_server_url">https://tables-demo.odk-x.org</string>
+	<string name="default_legacy_server_url">https://tables-demo.odk-x.org</string>
+
+    <string name="still_reading_license_file">Sorry, the license file is still being read.</string>
+ 	<string name="about">About</string>
+	<string name="log_threshold_verbose">System log threshold: Verbose</string>
+	<string name="log_threshold_debug">System log threshold: Debug</string>
+	<string name="log_threshold_info">System log threshold: Info</string>
+	<string name="log_threshold_warn">System log threshold: Warn</string>
+	<string name="log_threshold_error">System log threshold: Error and/or Success</string>
+	<string name="log_threshold_assert">System log threshold: Assert and/or Tip</string>
+ 	<string name="waiting_for_license">Retrieving license info &#8230;</string>
+	<string name="read_license_success">Read license file successfully</string>
+	<string name="read_license_fail">Failed to read license file</string>
+
+	<string name="font_size_extra_large">Extra Large</string>
+	<string name="font_size_large">Large</string>
+	<string name="font_size_medium">Medium</string>
+	<string name="font_size_small">Small</string>
+	<string name="font_size_extra_small">Extra Small</string>
+
+	<string name="credential_none">None (anonymous access)</string>
+	<string name="credential_username_password">Username</string>
+
+	<string name="expansion_unzipping_begins">Unzipping resources. Scanning zip directory.</string>
+	<string name="expansion_unzipping_without_detail">Unzipping resources. Extracting %1$s (%2$d of %3$d)</string>
+	<string name="expansion_create_dir_detail">Creating directory</string>
+	<string name="expansion_unzipping_detail">at byte %1$d, file %2$d</string>
+	<string name="expansion_unzipping_complete">Unzipping completed. %1$d resources unzipped.</string>
+
+	<string name="searching_for_deleted_forms">Searching for deleted forms &#8230;</string>
+	<string name="examining_form">Verifying form %2$s for table %1$s exists &#8230;</string>
+
+	<string name="scanning_for_table_definitions">Scanning for table definitions. Creating %1$s (%2$d of %3$d).</string>
+	<string name="processing_file">processing file&#8230;</string>
+	<string name="defining_tableid_error">Error processing table definition for tableId %1$s</string>
+
+	<string name="poorly_formatted_init_file">Invalid tables.init file</string>
+	<string name="csv_file_not_found">Warning: CSV File not found: %1$s - skipped</string>
+	<string name="importing_file_without_detail">Importing file (%1$d of %2$d): %3$s</string>
+	<string name="import_csv_success">Success: CSV intialization for tableId %1$s</string>
+	<string name="import_csv_failure">Failure: CSV intialization for tableId %1$s</string>
+	<string name="import_success">CSV File import was successful.</string>
+	<string name="import_in_progress">Importing row %1$d of about %2$d</string>
+
+	<string name="searching_for_form_defs">Searching for new form definitions &#8230;</string>
+	<string
+name="updating_table_form_information">Updating form information for table %1$s (%2$d of %3$d)</string>
+	<string name="table_forms_register_success">Success: Processed forms for tableId %1$s</string>
+	<string name="table_forms_register_failure">Failure: Processing forms for tableId %1$s</string>
+
+	<string name="abort_error_accessing_database">Aborted: Error accessing database</string>
+
+	<string name="permission_rational_title">Permission Request</string>
+
+</resources>
