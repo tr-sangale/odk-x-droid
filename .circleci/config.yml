@@ -39,7 +39,7 @@ jobs:
       - run:
           name: Publish library to GitHub Packages
           command: |
-             mvn clean deploy
+             mvn clean deploy -e -X
 
       
 workflows:
