@@ -11,6 +11,9 @@ jobs:
             - v1-dependencies-{{ checksum "build.gradle" }}
             - v1-dependencies-
       - run:
+          name: permmissions
+          command: chmod +x ./gradlew
+      - run:
           name: Install dependencies
           command: ./gradlew androidDependencies
           
